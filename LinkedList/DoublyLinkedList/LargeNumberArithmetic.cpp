@@ -41,9 +41,9 @@ public:
 
 	int length(); 
 	void add(LargeNumberLinkedList*, LargeNumberLinkedList*); 
-	void mul(LargeNumberLinkedList*, LargeNumberLinkedList*); 
-	void dif(LargeNumberLinkedList*, LargeNumberLinkedList*); 
-	void quo(LargeNumberLinkedList*, LargeNumberLinkedList*); 
+	void multiple(LargeNumberLinkedList*, LargeNumberLinkedList*); 
+	void difference(LargeNumberLinkedList*, LargeNumberLinkedList*); 
+	void quotient(LargeNumberLinkedList*, LargeNumberLinkedList*); 
 	int cmp(LargeNumberLinkedList*, LargeNumberLinkedList*); 
 	Node* head; 
 	Node* tail; 
@@ -91,7 +91,7 @@ void LargeNumberLinkedList::insertInEnd(int value)
 
 /* 
 To display the number can be 
-modified to remove leading zeros*/
+modifferenceied to remove leading zeros*/
 void LargeNumberLinkedList::display() 
 { 
 	Node* temp = head; 
@@ -150,7 +150,7 @@ void LargeNumberLinkedList::add(LargeNumberLinkedList* a, LargeNumberLinkedList*
 } 
 
 // Normal subtraction is done by borrowing 
-void LargeNumberLinkedList::dif(LargeNumberLinkedList* a, LargeNumberLinkedList* b) { 
+void LargeNumberLinkedList::difference(LargeNumberLinkedList* a, LargeNumberLinkedList* b) { 
 
 	int c = 0, s; 
 	LargeNumberLinkedList* a1 = new LargeNumberLinkedList(*a); 
@@ -215,10 +215,10 @@ int LargeNumberLinkedList::cmp(LargeNumberLinkedList* a, LargeNumberLinkedList* 
 	return 2; 
 } 
 
-// Returns the quotient using Normal Division 
-// Multiplication is used to find what factor 
-// is to be multiplied 
-void LargeNumberLinkedList::quo(LargeNumberLinkedList* a, LargeNumberLinkedList* b) 
+// Returns the quotienttient using Normal Division 
+// multipletiplication is used to find what factor 
+// is to be multipletiplied 
+void LargeNumberLinkedList::quotient(LargeNumberLinkedList* a, LargeNumberLinkedList* b) 
 { 
 	LargeNumberLinkedList* a1 = new LargeNumberLinkedList(*a); 
 	LargeNumberLinkedList* b1 = new LargeNumberLinkedList(*b); 
@@ -236,7 +236,7 @@ void LargeNumberLinkedList::quo(LargeNumberLinkedList* a, LargeNumberLinkedList*
 	for (i = 0; i < 10; i++) { 
 		LargeNumberLinkedList* b2 = new LargeNumberLinkedList(*b); 
 		mp->insertInEnd(i); 
-		pr->mul(b2, mp); 
+		pr->multiple(b2, mp); 
 		if (!cmp(ex, pr)) 
 			break; 
 		mp->head = mp->tail = NULL; 
@@ -249,8 +249,8 @@ void LargeNumberLinkedList::quo(LargeNumberLinkedList* a, LargeNumberLinkedList*
 	mp->size = pr->size = 0; 
 
 	mp->insertInEnd(i - 1); 
-	pr->mul(b1, mp); 
-	ex->dif(ex, pr); 
+	pr->multiple(b1, mp); 
+	ex->difference(ex, pr); 
 	insertInEnd(i - 1); 
 	mp->head = mp->tail = NULL; 
 	pr->head = pr->tail = NULL; 
@@ -268,7 +268,7 @@ void LargeNumberLinkedList::quo(LargeNumberLinkedList* a, LargeNumberLinkedList*
 		{ 
 			LargeNumberLinkedList* b2 = new LargeNumberLinkedList(*b); 
 			mp->insertInEnd(i); 
-			pr->mul(b2, mp); 
+			pr->multiple(b2, mp); 
 			if (!cmp(ex, pr)) 
 				break; 
 			mp->head = mp->tail = NULL; 
@@ -281,8 +281,8 @@ void LargeNumberLinkedList::quo(LargeNumberLinkedList* a, LargeNumberLinkedList*
 		mp->size = pr->size = 0; 
 
 		mp->insertInEnd(i - 1); 
-		pr->mul(b1, mp); 
-		ex->dif(ex, pr); 
+		pr->multiple(b1, mp); 
+		ex->difference(ex, pr); 
 
 		insertInEnd(i - 1); 
 
@@ -298,39 +298,39 @@ void LargeNumberLinkedList::quo(LargeNumberLinkedList* a, LargeNumberLinkedList*
 	ex->display(); 
 } 
 
-// Normal multiplication is used i.e. in one to all way 
-void LargeNumberLinkedList::mul(LargeNumberLinkedList* a, LargeNumberLinkedList* b) 
+// Normal multipletiplication is used i.e. in one to all way 
+void LargeNumberLinkedList::multiple(LargeNumberLinkedList* a, LargeNumberLinkedList* b) 
 { 
 	int k = 0, i; 
 	// LargeNumberLinkedList* tpro = new LargeNumberLinkedList(); 
 	while (b->tail != NULL) {
 
 		int c = 0, s = 0; 
-		LargeNumberLinkedList* temp = new LargeNumberLinkedList(*a); 
-		LargeNumberLinkedList* pro = new LargeNumberLinkedList(); 
+		LargeNumberLinkedList* __a = new LargeNumberLinkedList(*a); 
+		LargeNumberLinkedList* list = new LargeNumberLinkedList(); 
 
-		while (temp->tail != NULL) { 
-			s = ((temp->tail->data) * (b->tail->data) + c) % 10; 
-			c = ((temp->tail->data) * (b->tail->data) + c) / 10; 
-			pro->insertInFront(s); 
-			temp->tail = temp->tail->prev; 
+		while (__a->tail != NULL) { 
+			s = ((__a->tail->data) * (b->tail->data) + c) % 10; 
+			c = ((__a->tail->data) * (b->tail->data) + c) / 10; 
+			list->insertInFront(s); 
+			__a->tail = __a->tail->prev; 
 		}
 
 		if (c != 0) {
-			pro->insertInFront(c); 
+			list->insertInFront(c); 
 		}
 
 		for (i = 0; i < k; i++) {
-			pro->insertInEnd(0); 
+			list->insertInEnd(0); 
 		}
 
-		add(this, pro); 
+		add(this, list); 
 		k++; 
 		
 		b->tail = b->tail->prev; 
 
-		pro->head = pro->tail = NULL; 
-		pro->size = 0; 
+		list->head = list->tail = NULL; 
+		list->size = 0; 
 	} 
 } 
 
@@ -344,11 +344,11 @@ int main() {
 	LargeNumberLinkedList* d = new LargeNumberLinkedList(); 
 	LargeNumberLinkedList* q = new LargeNumberLinkedList(); 
 
-/*	string s1 = "123456789123456789123456789123456789123456789123456789"; 
-	string s2 = "45678913456789123456789123456789123456789123456789"; 	*/
+	string s1 = "123456789123456789123456789123456789123456789123456789"; 
+	string s2 = "45678913456789123456789123456789123456789123456789"; 	
 
-	string s1 = "12"; 
-	string s2 = "5"; 
+	 s1 = "12"; 
+	 s2 = "5"; 
 
 	for (int i = 0; i < s1.length(); i++) {
 		m->insertInEnd(s1.at(i) - '0'); 
@@ -382,17 +382,17 @@ int main() {
 	p->display(); 
 	cout << endl; 
 
-	cout << "Difference (m-n) : m>n:" << endl; 
-	d->dif(m2, n2); 
+	cout << "difference (m-n) : m>n:" << endl; 
+	d->difference(m2, n2); 
 	d->display(); 
 	cout << endl; 
 
 	cout << "Product :" << endl; 
-	s->mul(m, n); 
+	s->multiple(m, n); 
 	s->display(); 
 	cout << endl; 
 
-	q->quo(m3, n3);
+	q->quotient(m3, n3);
 
 	cout << "Quotient :" << endl; 
 	q->display(); 
@@ -404,7 +404,7 @@ int main() {
 
 /*Large number arithmetic using doubly linked list
 Last Updated: 03-04-2018
-Given two very large numbers in form of strings. Your task is to apply different
+Given two very large numbers in form of strings. Your task is to apply differenceferent
  arithmetic operations on these strings.
 
 Prerequisite : Doubly Linked List.
@@ -418,16 +418,19 @@ Output :
 Product : 563937184884934839205932493526930147847927802168925...
 30351019811918920046486820281054720515622620750190521
 Sum : 123913578246913578246913578246913578246913578246913578
-Difference : 123000000000000000000000000000000000000000000000000000
-Quotient : 270
+differenceference : 123000000000000000000000000000000000000000000000000000
+quotienttient : 270
 Remainder(%) : 123725790123725790123725790123725790123725790123759
 
 Input :
-*/m : 55
+m : 55
 n : 2
 Output :
 Product : 110
 Sum : 57
-Difference : 53
-Quotient : 27
+differenceference : 53
+quotienttient : 27
 Remainder(%) : 1
+
+
+*/
